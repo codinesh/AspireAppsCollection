@@ -1,31 +1,118 @@
-﻿@{
+﻿@model AspireApps.ViewModels.IndexVM
+
+@{
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div id="my-carousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        @{
+            var count = 0;
+            foreach (var item in @Model.HomePageItems)
+            {
+                <li data-target="#my-carousel" data-slide-to=@count class="active"></li>
+                count++;
+            }
+        }
+    </ol>
+    <div class="carousel-inner">
+        <div class="item active">
+            <img alt="First slide" src=@Model.HomePageItems[0].ImageURL>
+            <div class="carousel-caption">
+                <h3>@Model.HomePageItems[0].Heading</h3>
+                <p>@Model.HomePageItems[0].Description</p>
+            </div>
+        </div>
+
+        @foreach (var item in @Model.HomePageItems.Skip(1))
+        {
+            <div class="item">
+                <img alt="Second slide" src=@item.ImageURL>
+                <div class="carousel-caption">
+                    <h3>@item.Heading</h3>
+                    <p>@item.Description</p>
+                </div>
+            </div>
+        }
+    </div>
+    <a class="left carousel-control" href="#my-carousel" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#my-carousel" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<div class="panel-group" id="accordion">
+    <div id="AndroidAppsPanel" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title" style="margin-left:10px;" data-toggle="collapse" data-target="#AndroidApps">
+                <img src="~/Content/Images/AndroidBlack.png" class="platformImage" /> <span class="" style="font-size:large;">Android Apps</span>
+            </h2>
+        </div>
+        <div id="AndroidApps" class="panel-collapse collapse">
+            <ul class="list-group">
+                @foreach (var androidApp in @Model.AndroidAppList)
+                {
+                    <li class="list-group-item" data-href="@androidApp.StoreURL">
+                        <div class="media appList">
+                            <a class="pull-left" target="_blank" href="@androidApp.StoreURL">
+                                <img class="media-object platformImage" src="@androidApp.ImageURL" alt="@androidApp.Name">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">@Html.Display(@androidApp.Name)</h4>
+                                @androidApp.Description
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <div id="WindowsAppsPanel" class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title" style="margin-left:10px;" data-toggle="collapse" data-target="#WindowsApps">
+                <img src="~/Content/Images/WindowsBlack.png" class="platformImage" /> Windows Apps
+            </h4>
+        </div>
+        <div id="WindowsApps" class="panel-collapse collapse">
+            <ul class="list-group">
+                @foreach (var windowsApp in @Model.WindowsAppList)
+                {
+                    <li class="list-group-item">
+                        <div class="media appList">
+                            <a class="pull-left" href="@windowsApp.StoreURL">
+                                <img class="media-object platformImage" src="@windowsApp.ImageURL" alt="@windowsApp.Name" >
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">@Html.Display(@windowsApp.Name)</h4>
+                                @windowsApp.Description;
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div id="iOSAppsPanel" class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title" style="margin-left:10px;" data-toggle="collapse" data-target="#iOSApps">
+                <img src="~/Content/Images/iOSBlack.png" class="platformImage" /> iOS Apps (coming soon...)
+            </h4>
+        </div>
+        <div id="iOSApps" class="panel-collapse collapse">
+            <div class="panel-body">
+                coming soon...
+            </div>
+        </div>
     </div>
 </div>
+
+@section Scripts{
+    <script src="~/Scripts/js/HomeIndex.js"></script>
+}
+
+@section styles
+{
+    <link href="~/Content/css/HomeIndex.css" rel="stylesheet" />
+}

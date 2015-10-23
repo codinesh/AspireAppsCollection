@@ -1,4 +1,9 @@
-﻿using System;
+﻿using AspireApps.Models;
+using Microsoft.Azure;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Table;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -41,7 +46,7 @@ namespace AspireApps.Web.Controllers
         private IEnumerable<CloudBlockBlob> GetStorageItemsFromBlob(string containerName)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
-    CloudConfigurationManager.GetSetting("StorageConnectionString"));
+            CloudConfigurationManager.GetSetting("StorageConnectionString"));
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
             CloudBlobContainer container = blobClient.GetContainerReference(containerName);
             List<CloudBlockBlob> list = new List<CloudBlockBlob>();
